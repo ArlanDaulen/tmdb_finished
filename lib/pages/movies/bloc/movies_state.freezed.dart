@@ -25,9 +25,10 @@ class _$MovieStateTearOff {
     return const Loading();
   }
 
-  Loaded loaded(PopularModel changes) {
+  Loaded loaded(PopularModel changes, double containerHeight) {
     return Loaded(
       changes,
+      containerHeight,
     );
   }
 
@@ -47,7 +48,8 @@ mixin _$MovieState {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() loading,
-    required TResult Function(PopularModel changes) loaded,
+    required TResult Function(PopularModel changes, double containerHeight)
+        loaded,
     required TResult Function(Box<Results> savedChanges) onOffline,
   }) =>
       throw _privateConstructorUsedError;
@@ -55,7 +57,7 @@ mixin _$MovieState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loading,
-    TResult Function(PopularModel changes)? loaded,
+    TResult Function(PopularModel changes, double containerHeight)? loaded,
     TResult Function(Box<Results> savedChanges)? onOffline,
   }) =>
       throw _privateConstructorUsedError;
@@ -63,7 +65,7 @@ mixin _$MovieState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loading,
-    TResult Function(PopularModel changes)? loaded,
+    TResult Function(PopularModel changes, double containerHeight)? loaded,
     TResult Function(Box<Results> savedChanges)? onOffline,
     required TResult orElse(),
   }) =>
@@ -150,7 +152,8 @@ class _$Init implements Init {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() loading,
-    required TResult Function(PopularModel changes) loaded,
+    required TResult Function(PopularModel changes, double containerHeight)
+        loaded,
     required TResult Function(Box<Results> savedChanges) onOffline,
   }) {
     return init();
@@ -161,7 +164,7 @@ class _$Init implements Init {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loading,
-    TResult Function(PopularModel changes)? loaded,
+    TResult Function(PopularModel changes, double containerHeight)? loaded,
     TResult Function(Box<Results> savedChanges)? onOffline,
   }) {
     return init?.call();
@@ -172,7 +175,7 @@ class _$Init implements Init {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loading,
-    TResult Function(PopularModel changes)? loaded,
+    TResult Function(PopularModel changes, double containerHeight)? loaded,
     TResult Function(Box<Results> savedChanges)? onOffline,
     required TResult orElse(),
   }) {
@@ -263,7 +266,8 @@ class _$Loading implements Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() loading,
-    required TResult Function(PopularModel changes) loaded,
+    required TResult Function(PopularModel changes, double containerHeight)
+        loaded,
     required TResult Function(Box<Results> savedChanges) onOffline,
   }) {
     return loading();
@@ -274,7 +278,7 @@ class _$Loading implements Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loading,
-    TResult Function(PopularModel changes)? loaded,
+    TResult Function(PopularModel changes, double containerHeight)? loaded,
     TResult Function(Box<Results> savedChanges)? onOffline,
   }) {
     return loading?.call();
@@ -285,7 +289,7 @@ class _$Loading implements Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loading,
-    TResult Function(PopularModel changes)? loaded,
+    TResult Function(PopularModel changes, double containerHeight)? loaded,
     TResult Function(Box<Results> savedChanges)? onOffline,
     required TResult orElse(),
   }) {
@@ -341,7 +345,7 @@ abstract class Loading implements MovieState {
 abstract class $LoadedCopyWith<$Res> {
   factory $LoadedCopyWith(Loaded value, $Res Function(Loaded) then) =
       _$LoadedCopyWithImpl<$Res>;
-  $Res call({PopularModel changes});
+  $Res call({PopularModel changes, double containerHeight});
 }
 
 /// @nodoc
@@ -356,12 +360,17 @@ class _$LoadedCopyWithImpl<$Res> extends _$MovieStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? changes = freezed,
+    Object? containerHeight = freezed,
   }) {
     return _then(Loaded(
       changes == freezed
           ? _value.changes
           : changes // ignore: cast_nullable_to_non_nullable
               as PopularModel,
+      containerHeight == freezed
+          ? _value.containerHeight
+          : containerHeight // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -369,14 +378,16 @@ class _$LoadedCopyWithImpl<$Res> extends _$MovieStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$Loaded implements Loaded {
-  const _$Loaded(this.changes);
+  const _$Loaded(this.changes, this.containerHeight);
 
   @override
   final PopularModel changes;
+  @override
+  final double containerHeight;
 
   @override
   String toString() {
-    return 'MovieState.loaded(changes: $changes)';
+    return 'MovieState.loaded(changes: $changes, containerHeight: $containerHeight)';
   }
 
   @override
@@ -384,12 +395,18 @@ class _$Loaded implements Loaded {
     return identical(this, other) ||
         (other is Loaded &&
             (identical(other.changes, changes) ||
-                const DeepCollectionEquality().equals(other.changes, changes)));
+                const DeepCollectionEquality()
+                    .equals(other.changes, changes)) &&
+            (identical(other.containerHeight, containerHeight) ||
+                const DeepCollectionEquality()
+                    .equals(other.containerHeight, containerHeight)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(changes);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(changes) ^
+      const DeepCollectionEquality().hash(containerHeight);
 
   @JsonKey(ignore: true)
   @override
@@ -401,10 +418,11 @@ class _$Loaded implements Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() loading,
-    required TResult Function(PopularModel changes) loaded,
+    required TResult Function(PopularModel changes, double containerHeight)
+        loaded,
     required TResult Function(Box<Results> savedChanges) onOffline,
   }) {
-    return loaded(changes);
+    return loaded(changes, containerHeight);
   }
 
   @override
@@ -412,10 +430,10 @@ class _$Loaded implements Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loading,
-    TResult Function(PopularModel changes)? loaded,
+    TResult Function(PopularModel changes, double containerHeight)? loaded,
     TResult Function(Box<Results> savedChanges)? onOffline,
   }) {
-    return loaded?.call(changes);
+    return loaded?.call(changes, containerHeight);
   }
 
   @override
@@ -423,12 +441,12 @@ class _$Loaded implements Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loading,
-    TResult Function(PopularModel changes)? loaded,
+    TResult Function(PopularModel changes, double containerHeight)? loaded,
     TResult Function(Box<Results> savedChanges)? onOffline,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(changes);
+      return loaded(changes, containerHeight);
     }
     return orElse();
   }
@@ -472,9 +490,10 @@ class _$Loaded implements Loaded {
 }
 
 abstract class Loaded implements MovieState {
-  const factory Loaded(PopularModel changes) = _$Loaded;
+  const factory Loaded(PopularModel changes, double containerHeight) = _$Loaded;
 
   PopularModel get changes => throw _privateConstructorUsedError;
+  double get containerHeight => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $LoadedCopyWith<Loaded> get copyWith => throw _privateConstructorUsedError;
 }
@@ -544,7 +563,8 @@ class _$OnOffline implements OnOffline {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() loading,
-    required TResult Function(PopularModel changes) loaded,
+    required TResult Function(PopularModel changes, double containerHeight)
+        loaded,
     required TResult Function(Box<Results> savedChanges) onOffline,
   }) {
     return onOffline(savedChanges);
@@ -555,7 +575,7 @@ class _$OnOffline implements OnOffline {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loading,
-    TResult Function(PopularModel changes)? loaded,
+    TResult Function(PopularModel changes, double containerHeight)? loaded,
     TResult Function(Box<Results> savedChanges)? onOffline,
   }) {
     return onOffline?.call(savedChanges);
@@ -566,7 +586,7 @@ class _$OnOffline implements OnOffline {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loading,
-    TResult Function(PopularModel changes)? loaded,
+    TResult Function(PopularModel changes, double containerHeight)? loaded,
     TResult Function(Box<Results> savedChanges)? onOffline,
     required TResult orElse(),
   }) {

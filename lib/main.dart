@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       home: BlocProvider(
+        
           create: (context) => moviesBloc,
           child: MoviesPage(
             moviesBloc: moviesBloc..add(MoviesEvent.load()),

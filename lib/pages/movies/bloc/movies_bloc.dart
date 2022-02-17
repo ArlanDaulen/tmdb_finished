@@ -17,9 +17,11 @@ class MoviesBloc extends Bloc<MoviesEvent, MovieState> {
   late Box<Results> box;
   int? length;
   var changess;
+  double? containerHeight;
 
   MoviesBloc(this.moviesRepository) : super(MovieState.init()) {
     on<MoviesLoadingEvent>((event, emit) async {
+      containerHeight = 0;
       length = 10;
       log('length is $length');
 
@@ -46,14 +48,15 @@ class MoviesBloc extends Bloc<MoviesEvent, MovieState> {
               ? Hive.box<Results>('movies')
               : await Hive.openBox<Results>('movies');
 
-          if (box.values.length < 10) {
-            for (int i = 0; i < 10; i++) {
+          if (box.values.length < length!) {
+            for (int i = 0; i < length!; i++) {
               await box.add(changess.results![i]);
               log('$i added to box');
             }
           }
           log(box.values.length.toString());
-          emit(MovieState.loaded(changess));
+          emit(MovieState.loaded(changess, containerHeight!));
+          //Nurkeldi kotak je
           // await box.clear();
           // log(box.values.length.toString());
         } else {
@@ -64,18 +67,22 @@ class MoviesBloc extends Bloc<MoviesEvent, MovieState> {
             ? Hive.box<Results>('movies')
             : await Hive.openBox<Results>('movies');
         emit(MovieState.onOffline(box));
+        log('Offline mode');
       }
     });
 
     on<MoviesLoadingMoreEvent>((event, emit) async {
       log('Loading more called');
       log(changess.results!.length.toString());
+      containerHeight = 60;
+      emit(MovieState.loaded(changess, containerHeight!));
+      await Future.delayed(Duration(seconds: 2), () {
+        containerHeight = 0;
+        length = 20;
+        log('length is $length');
 
-      length = 20;
-      log('length is $length');
-      emit(MovieState.loading());
-      await Future.delayed(
-          Duration(seconds: 2), () => emit(MovieState.loaded(changess)));
+        emit(MovieState.loaded(changess, containerHeight!));
+      });
     });
   }
 }
